@@ -7,7 +7,7 @@ import {
     documents,
     realtime,
     write
-} from "./support/firebase";
+} from "./support/firestore";
 
 import QRCode from "qrcode.react";
 
@@ -53,7 +53,7 @@ const App = () => {
     return (
         <div className="m-0 p-0">
 
-            <h1 className="p-5 mb-4 bg-secondary text-light">Firebase Tests</h1>
+            <h1 className="p-5 mb-4 bg-secondary text-light">{ process.env.REACT_APP_TITLE }</h1>
 
             <div className="container">
 
