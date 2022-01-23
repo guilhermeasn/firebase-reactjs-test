@@ -29,7 +29,7 @@ const App = () => {
     function add({ id, name, current }) {
         write('queue', id, {
             name,
-            current: current + 1
+            current: ++current
         });
     }
 
@@ -87,7 +87,7 @@ const App = () => {
                         <div className="m-1">
                             <strong>Senha:</strong>
                             <span className="m-1 text-secondary h5">
-                                { data.current && data.current.toLocaleString() }
+                                { (typeof data.current === 'number') ? data.current.toLocaleString() : data.current }
                             </span>
                         </div>
 
