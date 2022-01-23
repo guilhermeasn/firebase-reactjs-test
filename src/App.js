@@ -5,13 +5,15 @@ import {
 
 import {
     documents,
-    realtime
+    realtime,
+    write
 } from "./support/firebase";
 
 import QRCode from "qrcode.react";
 
 
 const presetData = {
+    id: null,
     name: ' ---- ',
     current: null
 };
@@ -24,6 +26,13 @@ const App = () => {
 
     useEffect(_ => documents('queue').then(q => setQueues(q)), []);
 
+    function add({ id, name, current }) {
+        write('queue', id, {
+            name,
+            current: current + 1
+        });
+    }
+
     function select(queue) {
 
         if(queue) {
@@ -32,7 +41,7 @@ const App = () => {
             
             const unsubscribe = realtime('queue', queue, (data, id) => {
                 console.log(`Informação recebida de ${id}`);
-                setData(data);
+                setData({ id, ...data });
             });
 
             setCancel(_ => unsubscribe);
@@ -68,7 +77,10 @@ const App = () => {
 
                     <div>
 
-                        <div className="m-1">{ data.name }</div>
+                        <div className="m-1">
+                            { data.name }<br/>
+                            <small className="text-muted">{ data.id }</small>
+                        </div>
 
                         <div className="m-1">
                             <strong>Senha:</strong>
@@ -80,7 +92,7 @@ const App = () => {
                     </div>
 
                     <div>
-                        <button className="btn btn-primary" disabled={ !data.current }>
+                        <button className="btn btn-primary" onClick={ _ => add(data) } disabled={ (typeof data.current !== 'number') }>
                             Avançar
                         </button>
                     </div>

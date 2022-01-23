@@ -7,7 +7,7 @@ import {
     onSnapshot,
     doc,
     query,
-
+    setDoc
 } from "firebase/firestore";
 
 
@@ -52,5 +52,11 @@ export const realtimeCollection = (collection, callback = (data, id) => {}) => {
             callback(doc.data(), doc.id);
         });
     });
+
+}
+
+export const write = async (collection, document, data = {}) => {
+
+    return await setDoc(doc(firestore, collection, document), data);
 
 }
